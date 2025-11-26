@@ -5,6 +5,7 @@ import InputSection from './components/InputSection';
 import PlanCard from './components/PlanCard';
 import ComparisonChart from './components/ComparisonChart';
 import ComparisonTable from './components/ComparisonTable';
+import { NummusLogo } from './components/Logo';
 import { INITIAL_STATE, SCENARIOS } from './constants';
 import { calculateAllPlans } from './utils/calculations';
 import { CalculatorState, PlanType } from './types';
@@ -51,16 +52,22 @@ const App: React.FC = () => {
         
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-4">
-             {/* Logo Representation - Gold Accent */}
-             <div className="w-14 h-14 rounded-full border-2 border-brand-accent flex items-center justify-center relative shadow-[0_0_15px_rgba(240,197,86,0.2)]">
-               <span className="font-display font-bold text-3xl text-brand-accent tracking-tighter">N</span>
+          <div className="flex items-center gap-5">
+             {/* Logo Component */}
+             <div className="relative">
+                <NummusLogo className="w-16 h-16 md:w-20 md:h-20" />
+                {/* Glow effect behind logo */}
+                <div className="absolute inset-0 bg-brand-primary/20 blur-xl rounded-full -z-10"></div>
              </div>
+             
              <div>
-               <h1 className="text-3xl md:text-4xl font-display font-bold text-white tracking-tight leading-none">
+               <h1 className="text-3xl md:text-5xl font-display font-bold text-white tracking-tight leading-none">
                  NUMMUS
                </h1>
-               <p className="text-sm md:text-base text-brand-secondary tracking-[0.1em] uppercase font-medium mt-1">Wallet Fee Calculator</p>
+               <div className="flex items-center gap-2 mt-1">
+                 <span className="h-px w-8 bg-brand-secondary/50 hidden sm:block"></span>
+                 <p className="text-sm md:text-base text-brand-secondary tracking-[0.1em] uppercase font-medium">Wallet Fee Calculator</p>
+               </div>
              </div>
           </div>
           
