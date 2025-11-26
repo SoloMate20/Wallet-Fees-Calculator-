@@ -4,8 +4,11 @@ export enum PlanType {
   PREMIUM = 'Premium',
 }
 
+export type Currency = 'USD' | 'EUR' | 'GBP';
+
 export interface CalculatorState {
   selectedPlan: PlanType;
+  currency: Currency;
   initialDeposit: number;
   monthlyDeposit: number;
   depositType: 'fiat' | 'crypto';

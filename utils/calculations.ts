@@ -1,4 +1,4 @@
-import { CalculatorState, PlanResult, PlanType, PlanCosts } from '../types';
+import { CalculatorState, PlanResult, PlanType, PlanCosts, Currency } from '../types';
 import { FEES } from '../constants';
 
 export const calculatePlanCosts = (state: CalculatorState, planType: PlanType): PlanCosts => {
@@ -79,10 +79,10 @@ export const calculateAllPlans = (state: CalculatorState): PlanResult[] => {
   }));
 };
 
-export const formatCurrency = (amount: number) => {
+export const formatCurrency = (amount: number, currency: Currency = 'USD') => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);

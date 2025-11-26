@@ -1,13 +1,14 @@
 import React from 'react';
-import { PlanResult, PlanType } from '../types';
+import { PlanResult, PlanType, Currency } from '../types';
 import { formatCurrency } from '../utils/calculations';
 import { Shield, Zap, Crown, Info, Landmark } from 'lucide-react';
 
 interface PlanCardProps {
   result: PlanResult;
+  currency: Currency;
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ result }) => {
+const PlanCard: React.FC<PlanCardProps> = ({ result, currency }) => {
   const { type, costs, isBestValue } = result;
 
   // Plan Specific styling updated for Nummus Brand Guidelines
@@ -73,7 +74,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ result }) => {
            <p className="text-text-muted text-sm font-medium uppercase tracking-wider mb-2 font-display">Estimated 1st Year Net Cost</p>
            <div className="flex items-end gap-3">
              <span className={`text-5xl font-bold font-display ${costs.netCost < 0 ? 'text-brand-primary' : 'text-white'}`}>
-              {formatCurrency(costs.netCost)}
+              {formatCurrency(costs.netCost, currency)}
              </span>
              {costs.netCost < 0 && (
                <span className="text-sm text-brand-primary font-bold mb-3 bg-brand-primary/10 px-2 py-0.5 rounded border border-brand-primary/20">
@@ -99,16 +100,16 @@ const PlanCard: React.FC<PlanCardProps> = ({ result }) => {
              <div className="flex justify-between items-center mb-1">
                <span className="text-gray-300 font-medium font-display">Administrative Fees</span>
                <span className="text-white font-semibold">
-                 {formatCurrency(costs.openingFee + costs.annualAdminFee + costs.monthlyAdminFeeTotal)}
+                 {formatCurrency(costs.openingFee + costs.annualAdminFee + costs.monthlyAdminFeeTotal, currency)}
                </span>
              </div>
              <div className="h-1.5 w-full bg-navy-900 rounded-full overflow-hidden border border-white/5">
                <div className="h-full bg-gray-500 w-full opacity-60"></div>
              </div>
              <div className="flex gap-4 text-xs text-text-muted mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span>Opening: {formatCurrency(costs.openingFee)}</span>
-                <span>Annual: {formatCurrency(costs.annualAdminFee)}</span>
-                <span>Monthly: {formatCurrency(costs.monthlyAdminFeeTotal)}</span>
+                <span>Opening: {formatCurrency(costs.openingFee, currency)}</span>
+                <span>Annual: {formatCurrency(costs.annualAdminFee, currency)}</span>
+                <span>Monthly: {formatCurrency(costs.monthlyAdminFeeTotal, currency)}</span>
              </div>
           </div>
 
@@ -117,15 +118,15 @@ const PlanCard: React.FC<PlanCardProps> = ({ result }) => {
              <div className="flex justify-between items-center mb-1">
                <span className="text-gray-300 font-medium font-display">Transaction Fees</span>
                <span className="text-white font-semibold">
-                 {formatCurrency(costs.depositFees + costs.transferFees)}
+                 {formatCurrency(costs.depositFees + costs.transferFees, currency)}
                </span>
              </div>
              <div className="h-1.5 w-full bg-navy-900 rounded-full overflow-hidden border border-white/5">
                <div className="h-full bg-brand-secondary w-full opacity-80"></div>
              </div>
              <div className="flex gap-4 text-xs text-text-muted mt-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                <span>Deposits: {formatCurrency(costs.depositFees)}</span>
-                <span>Transfers: {formatCurrency(costs.transferFees)}</span>
+                <span>Deposits: {formatCurrency(costs.depositFees, currency)}</span>
+                <span>Transfers: {formatCurrency(costs.transferFees, currency)}</span>
              </div>
           </div>
 
@@ -134,7 +135,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ result }) => {
              <div className="flex justify-between items-center mb-1">
                <span className="text-gray-300 font-medium font-display">Card Fees</span>
                <span className="text-white font-semibold">
-                 {formatCurrency(costs.cardFees)}
+                 {formatCurrency(costs.cardFees, currency)}
                </span>
              </div>
              <div className="h-1.5 w-full bg-navy-900 rounded-full overflow-hidden border border-white/5">
@@ -152,7 +153,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ result }) => {
                <span className="text-brand-primary font-medium font-display">Interest Earned</span>
              </div>
              <span className="text-xl font-bold text-brand-primary font-display">
-               +{formatCurrency(costs.interestEarned)}
+               +{formatCurrency(costs.interestEarned, currency)}
              </span>
            </div>
            {result.type === PlanType.VIRTUAL && (

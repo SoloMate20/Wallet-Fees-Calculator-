@@ -2,6 +2,7 @@ import { CalculatorState, PlanType } from './types';
 
 export const INITIAL_STATE: CalculatorState = {
   selectedPlan: PlanType.VIRTUAL,
+  currency: 'USD',
   initialDeposit: 1000,
   monthlyDeposit: 0,
   depositType: 'fiat',
@@ -10,9 +11,16 @@ export const INITIAL_STATE: CalculatorState = {
   monthlyExternalTransfers: 0,
 };
 
+export const CURRENCY_SYMBOLS = {
+  USD: '$',
+  EUR: '€',
+  GBP: '£',
+};
+
 export const SCENARIOS = {
   NEW_USER: {
     selectedPlan: PlanType.VIRTUAL,
+    currency: 'USD',
     initialDeposit: 1000,
     monthlyDeposit: 0,
     depositType: 'fiat',
@@ -22,6 +30,7 @@ export const SCENARIOS = {
   } as CalculatorState,
   REGULAR: {
     selectedPlan: PlanType.PRO,
+    currency: 'USD',
     initialDeposit: 5000,
     monthlyDeposit: 1000,
     depositType: 'fiat',
@@ -31,6 +40,7 @@ export const SCENARIOS = {
   } as CalculatorState,
   HEAVY_TRADER: {
     selectedPlan: PlanType.PRO,
+    currency: 'USD',
     initialDeposit: 25000,
     monthlyDeposit: 5000,
     depositType: 'crypto',
@@ -40,6 +50,7 @@ export const SCENARIOS = {
   } as CalculatorState,
   PREMIUM_USER: {
     selectedPlan: PlanType.PREMIUM,
+    currency: 'USD',
     initialDeposit: 50000,
     monthlyDeposit: 2000,
     depositType: 'fiat',

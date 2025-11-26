@@ -1,6 +1,7 @@
 import React from 'react';
-import { CalculatorState, PlanType } from '../types';
-import { Wallet, CreditCard, ArrowRightLeft, DollarSign, Repeat } from 'lucide-react';
+import { CalculatorState, PlanType, Currency } from '../types';
+import { CURRENCY_SYMBOLS } from '../constants';
+import { Wallet, CreditCard, ArrowRightLeft, DollarSign, Repeat, Coins } from 'lucide-react';
 
 interface InputSectionProps {
   state: CalculatorState;
@@ -14,30 +15,57 @@ const InputSection: React.FC<InputSectionProps> = ({ state, onChange }) => {
     onChange({ [key]: isNaN(num) ? 0 : num });
   };
 
+  const currencySymbol = CURRENCY_SYMBOLS[state.currency];
+
   return (
     <div className="bg-navy-800 border border-white/5 rounded-2xl p-6 shadow-xl">
-      <h2 className="text-xl font-display font-semibold text-white mb-6 flex items-center gap-3">
-        <span className="bg-navy-900 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-brand-primary border border-brand-primary/20">
-          02
-        </span>
-        Configure Usage for {state.selectedPlan}
-      </h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-display font-semibold text-white flex items-center gap-3">
+          <span className="bg-navy-900 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-brand-primary border border-brand-primary/20">
+            02
+          </span>
+          Configure Usage
+        </h2>
+      </div>
 
       <div className="grid grid-cols-1 gap-6">
         
+        {/* Currency Selector */}
+        <div className="space-y-2">
+           <label className="text-sm font-medium text-text-muted flex items-center gap-2 font-display">
+             <Coins className="w-4 h-4 text-white" /> Select Currency
+           </label>
+           <div className="flex bg-navy-900 rounded-lg p-1 border border-white/10">
+             {(['USD', 'EUR', 'GBP'] as Currency[]).map((cur) => (
+               <button
+                 key={cur}
+                 type="button"
+                 onClick={() => onChange({ currency: cur })}
+                 className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 font-display ${
+                   state.currency === cur
+                     ? 'bg-brand-secondary text-white shadow-lg shadow-brand-secondary/20'
+                     : 'text-text-muted hover:text-white hover:bg-white/5'
+                 }`}
+               >
+                 {cur} ({CURRENCY_SYMBOLS[cur]})
+               </button>
+             ))}
+           </div>
+        </div>
+
         {/* Initial Deposit */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-text-muted flex items-center gap-2 font-display">
             <Wallet className="w-4 h-4 text-brand-accent" /> Initial Deposit
           </label>
           <div className="relative group">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-secondary/50 font-mono">$</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-secondary/50 font-mono peer-placeholder-shown:hidden pointer-events-none transition-all">{currencySymbol}</span>
             <input
               type="number"
               value={state.initialDeposit || ''}
               onChange={(e) => handleNumberChange('initialDeposit', e.target.value)}
-              className="w-full bg-navy-900 border border-white/10 rounded-lg py-3 pl-8 pr-4 text-white placeholder-gray-700 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-mono"
-              placeholder="10000"
+              className="peer w-full bg-navy-900 border border-white/10 rounded-lg py-3 pr-4 pl-8 peer-placeholder-shown:pl-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-mono"
+              placeholder={`${currencySymbol}10,000`}
             />
           </div>
         </div>
@@ -47,14 +75,14 @@ const InputSection: React.FC<InputSectionProps> = ({ state, onChange }) => {
           <label className="text-sm font-medium text-text-muted flex items-center gap-2 font-display">
             <Repeat className="w-4 h-4 text-brand-secondary" /> Monthly Deposit
           </label>
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-secondary/50 font-mono">$</span>
+          <div className="relative group">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-secondary/50 font-mono peer-placeholder-shown:hidden pointer-events-none transition-all">{currencySymbol}</span>
             <input
               type="number"
               value={state.monthlyDeposit || ''}
               onChange={(e) => handleNumberChange('monthlyDeposit', e.target.value)}
-              className="w-full bg-navy-900 border border-white/10 rounded-lg py-3 pl-8 pr-4 text-white placeholder-gray-700 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-mono"
-              placeholder="1000"
+              className="peer w-full bg-navy-900 border border-white/10 rounded-lg py-3 pr-4 pl-8 peer-placeholder-shown:pl-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-mono"
+              placeholder={`${currencySymbol}1,000`}
             />
           </div>
         </div>
@@ -64,14 +92,14 @@ const InputSection: React.FC<InputSectionProps> = ({ state, onChange }) => {
           <label className="text-sm font-medium text-text-muted flex items-center gap-2 font-display">
             <ArrowRightLeft className="w-4 h-4 text-brand-primary" /> Monthly Transfers Out
           </label>
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-secondary/50 font-mono">$</span>
+          <div className="relative group">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-secondary/50 font-mono peer-placeholder-shown:hidden pointer-events-none transition-all">{currencySymbol}</span>
             <input
               type="number"
               value={state.monthlyExternalTransfers || ''}
               onChange={(e) => handleNumberChange('monthlyExternalTransfers', e.target.value)}
-              className="w-full bg-navy-900 border border-white/10 rounded-lg py-3 pl-8 pr-4 text-white placeholder-gray-700 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-mono"
-              placeholder="500"
+              className="peer w-full bg-navy-900 border border-white/10 rounded-lg py-3 pr-4 pl-8 peer-placeholder-shown:pl-3 text-white placeholder-gray-600 focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all font-mono"
+              placeholder={`${currencySymbol}500`}
             />
           </div>
         </div>

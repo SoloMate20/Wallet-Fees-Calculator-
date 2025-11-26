@@ -1,12 +1,13 @@
 import React from 'react';
-import { PlanResult, PlanType } from '../types';
+import { PlanResult, PlanType, Currency } from '../types';
 import { formatCurrency } from '../utils/calculations';
 
 interface ComparisonTableProps {
   results: PlanResult[];
+  currency: Currency;
 }
 
-const ComparisonTable: React.FC<ComparisonTableProps> = ({ results }) => {
+const ComparisonTable: React.FC<ComparisonTableProps> = ({ results, currency }) => {
   const getPlanResult = (type: PlanType) => results.find(r => r.type === type)!;
 
   const bestPlan = results.find(r => r.isBestValue);
@@ -38,7 +39,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ results }) => {
         {bestPlan && (
           <p className="text-sm text-brand-secondary mt-2 font-display">
             Based on your deposit and usage, the <strong className="text-brand-accent uppercase">{bestPlan.type}</strong> plan is your best option. 
-            You save <span className="text-white font-bold">{formatCurrency(savings)}</span> per year compared to the {worstPlan.type} plan.
+            You save <span className="text-white font-bold">{formatCurrency(savings, currency)}</span> per year compared to the {worstPlan.type} plan.
           </p>
         )}
       </div>
@@ -81,7 +82,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ results }) => {
 
                   return (
                     <td key={planType} className={`py-4 px-4 text-center text-sm text-text-muted group-hover:text-white transition-colors font-mono ${cellBg}`}>
-                      {val === 0 ? <span className="text-gray-600">-</span> : formatCurrency(val)}
+                      {val === 0 ? <span className="text-gray-600">-</span> : formatCurrency(val, currency)}
                     </td>
                   );
                 })}
@@ -97,7 +98,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ results }) => {
                   const cellBg = isBest ? 'bg-brand-accent/10' : '';
                   return (
                     <td key={planType} className={`py-4 px-4 text-center text-white font-mono ${cellBg}`}>
-                      {formatCurrency(result.costs.totalFirstYearCost)}
+                      {formatCurrency(result.costs.totalFirstYearCost, currency)}
                     </td>
                   );
                 })}
@@ -113,7 +114,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ results }) => {
                    const cellBg = isBest ? 'bg-brand-accent/5' : '';
                    return (
                     <td key={planType} className={`py-4 px-4 text-center text-sm font-medium text-brand-primary font-mono ${cellBg}`}>
-                      {val > 0 ? `+${formatCurrency(val)}` : <span className="text-gray-600">-</span>}
+                      {val > 0 ? `+${formatCurrency(val, currency)}` : <span className="text-gray-600">-</span>}
                     </td>
                    );
                 })}
@@ -131,7 +132,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ results }) => {
                    return (
                     <td key={planType} className={`py-6 px-4 text-center text-lg font-bold font-display ${cellBg} ${isBest ? 'text-brand-accent scale-105 transform' : 'text-white'}`}>
                       <span className={isNegative ? 'text-brand-primary' : ''}>
-                        {formatCurrency(result.costs.netCost)}
+                        {formatCurrency(result.costs.netCost, currency)}
                       </span>
                       {isNegative && <div className="text-[10px] text-brand-primary font-bold uppercase mt-1 tracking-wider">Net Profit</div>}
                     </td>
@@ -150,7 +151,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({ results }) => {
                    return (
                     <td key={planType} className={`py-4 px-4 text-center text-sm font-bold font-mono ${cellBg}`}>
                        {isBest ? (
-                         <span className="text-brand-accent">{formatCurrency(result.savingsVsMostExpensive)}</span>
+                         <span className="text-brand-accent">{formatCurrency(result.savingsVsMostExpensive, currency)}</span>
                        ) : (
                          <span className="text-gray-600 text-xs">--</span>
                        )}

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
-import { Download, RefreshCw, Layers, Shield, Zap, Crown, PlayCircle } from 'lucide-react';
+import { Download, RefreshCw, PlayCircle, Shield, Zap, Crown } from 'lucide-react';
 import InputSection from './components/InputSection';
 import PlanCard from './components/PlanCard';
 import ComparisonChart from './components/ComparisonChart';
@@ -156,24 +156,24 @@ const App: React.FC = () => {
               
               {/* Mini Comparison Chart embedded below inputs for context */}
                <div className="hidden lg:block">
-                 <ComparisonChart results={results} />
+                 <ComparisonChart results={results} currency={state.currency} />
                </div>
             </div>
 
             {/* Right Column: Selected Plan Details */}
             <div className="lg:col-span-7 space-y-6">
-               <PlanCard result={selectedResult} />
+               <PlanCard result={selectedResult} currency={state.currency} />
                
                {/* Mobile Chart Visibility */}
                <div className="lg:hidden">
-                 <ComparisonChart results={results} />
+                 <ComparisonChart results={results} currency={state.currency} />
                </div>
             </div>
           </div>
 
           {/* Bottom Full Comparison Table */}
           <div className="mt-4">
-            <ComparisonTable results={results} />
+            <ComparisonTable results={results} currency={state.currency} />
           </div>
 
         </div>
